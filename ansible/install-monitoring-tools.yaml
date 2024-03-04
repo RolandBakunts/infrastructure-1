@@ -1,0 +1,28 @@
+---
+- name: Configure AWS EKS Cluster Access
+  hosts: localhost
+  gather_facts: no
+  vars:
+    envs:
+        dev:
+          name: dev-demo
+          region: us-east-1
+        # prod:
+          # name: prod-demo
+          # region: us-east-1
+  tasks:
+    - name: Update kubeconfig for EKS
+      command: aws eks --region {{envs.dev.region}} update-kubeconfig --name {{envs.dev.name}}
+
+    - name: Instal Helm stable 
+      command: helm repo add stable https://charts.helm.sh/stable
+
+    - name: Instal Helm prometheus repo 
+      command: helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+
+    - name: Create namespace for prometheus
+      command: kubectl create namespace prometheus
+
+    - name: Install prometheus-operator with a grafana deployment
+      command: helm install stable prometheus-community/kube-prometheus-stack -n prometheus
+
