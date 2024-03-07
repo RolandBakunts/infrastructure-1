@@ -4,6 +4,7 @@ Requirements:
 AWS account
 AWS CLI
 kubectl/helm
+
 Repository Overview:
 
 This repository features Terraform code that orchestrates the creation of production and development environments on AWS. It meticulously automates the configuration of key components as follows:
